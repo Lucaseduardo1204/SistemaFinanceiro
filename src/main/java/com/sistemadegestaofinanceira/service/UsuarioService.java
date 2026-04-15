@@ -4,7 +4,6 @@ import com.sistemadegestaofinanceira.dtos.UsuarioRequestDTO;
 import com.sistemadegestaofinanceira.dtos.UsuarioResponseDTO;
 import com.sistemadegestaofinanceira.dtos.UsuarioUpdateRequestDTO;
 import com.sistemadegestaofinanceira.entities.Usuario;
-import com.sistemadegestaofinanceira.enums.TipoUsuario;
 import com.sistemadegestaofinanceira.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,39 @@
+##Flyway
+
+Utilizamos do FlyWay como uma espécie de Git para banco de dados. Com ele o Spring não cria nada sozinho, escrevemos scripts
+SQL numerados (V1, V2, V3), e o FlyWay vai aplica-los na ordem exata, guardando um histórico (Controle de versão), de tudo
+que foi alterado
+
+Dependencia
+
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-database-postgresql</artifactId>
+</dependency>
+
+
+após a inclusão da dependencia e reload do Maven, precisamos alterar o application.properties alterando a linha do ddl-auto
+de update para validate
+Caso o FlyWay reclame se a tabela estiver limpa, precisamos adicionar a linha
+spring.flyway.baseline-on-migrate=true
+
+Local onde o flyway busca o arquivo:
+src/main/resources
+
+dentro dessa pasta devemos criar uma pasta chamada db e uma migration
+
+Caminho absoluto>
+src/main/resources/db/migration
+
+após a estruturação dos diretórios, devemos incluir um arquivo SQL com um nome predefinido por exemplo
+
+V1__criar__tabelas__iniciais.sql
+sendo os dois underlines obrigatórios pois, com apenas um o flyway ignora o arquivo
+
+
+

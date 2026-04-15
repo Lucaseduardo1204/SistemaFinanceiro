@@ -42,7 +42,20 @@ public class LancamentoService {
 
     }
 
-    public  List<LancamentoResponseDTO> listarDespesas(){
+    public LancamentoResponseDTO buscaLancamentoPorId(Long id){
+        var lancamento = lancamentoRepository.findById(id).orElseThrow(() -> new RuntimeException("Lançamento não encontrado!"));
+
+        return new LancamentoResponseDTO(
+                lancamento.getId(),
+                lancamento.getDescricao(),
+                lancamento.getValor(),
+                lancamento.getTipoOperacao(),
+                lancamento.getCategoria(),
+                lancamento.getData(),
+                lancamento.getUsuario().getNomeUsuario());
+    }
+
+    public  List<LancamentoResponseDTO> listarLancamentos(){
         List<Lancamento> listaLancamentos = lancamentoRepository.findAll();
 
         return listaLancamentos.stream()

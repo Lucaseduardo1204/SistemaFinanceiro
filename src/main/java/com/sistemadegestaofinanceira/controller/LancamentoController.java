@@ -2,6 +2,7 @@ package com.sistemadegestaofinanceira.controller;
 
 import com.sistemadegestaofinanceira.dtos.LancamentoRequestDTO;
 import com.sistemadegestaofinanceira.dtos.LancamentoResponseDTO;
+import com.sistemadegestaofinanceira.entities.Lancamento;
 import com.sistemadegestaofinanceira.service.LancamentoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,18 @@ public class LancamentoController {
     }
 
     //construir listagem única
+    @GetMapping("/{id}")
+    public ResponseEntity<LancamentoResponseDTO> buscaLancamentoPorId(@PathVariable Long id){
+
+        LancamentoResponseDTO response = lancamentoService.buscaLancamentoPorId(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
 
     @GetMapping
-    public ResponseEntity<List<LancamentoResponseDTO>> listarDespesas(){
-        List<LancamentoResponseDTO> response = lancamentoService.listarDespesas();
+    public ResponseEntity<List<LancamentoResponseDTO>> listarLancamentos(){
+        List<LancamentoResponseDTO> response = lancamentoService.listarLancamentos();
 
         return ResponseEntity.ok().body(response);
     }

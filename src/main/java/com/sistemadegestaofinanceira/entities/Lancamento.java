@@ -9,10 +9,11 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
+@Entity
+@Table(name = "tb_lancamento")
 @Getter
 @Setter
-@Entity
-@Table(name = "tb_despesa")
 public class Lancamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
