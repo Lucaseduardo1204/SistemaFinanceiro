@@ -6,23 +6,33 @@ import com.sistemadegestaofinanceira.dtos.UsuarioUpdateRequestDTO;
 import com.sistemadegestaofinanceira.entities.Usuario;
 import com.sistemadegestaofinanceira.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+//Aqui no service é onde injetamos o PasswordEncoder criado la no SecurityConfig  e usalo para criptografar a senha do
+// DTO antes de salva-lo na entidade
 @Service
 public class UsuarioService {
     private final UsuarioRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UsuarioService(UsuarioRepository repository){
+    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder){
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
 
     @Transactional
     public UsuarioResponseDTO cadastrarUsuario(UsuarioRequestDTO request){
         var userExistente = repository.findByNomeUsuario(request.nomeUsuario());
         var emailExistente = repository.findByEmail(request.email());
+
+        //Transforma a senha do usuário do dto em senha criptografada que será persistida no banco
+        String senhaCriptografada = passwordEncoder.encode(request.senha());
 
         if (userExistente.isPresent()){
             throw new RuntimeException("ERRO: Usuário já cadastrado!");
@@ -32,7 +42,7 @@ public class UsuarioService {
             throw new RuntimeException("ERRO: Email já cadastrado!");
         }
 
-        Usuario novoUsuario = new Usuario(request.nomeUsuario(), request.email(), request.senha(), request.tipoUsuario());
+        Usuario novoUsuario = new Usuario(request.nomeUsuario(), request.email(), senhaCriptografada, request.tipoUsuario());
 
         repository.save(novoUsuario);
 
